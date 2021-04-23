@@ -1,0 +1,133 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <div class="header">
+        <div class="container">
+            <div class="header_inner">
+            <nav class="nav">
+                <a class="nav_link active" href="/#special_menu">Меню от шефа</a>
+                <a class="nav_link" href="/#menu">Основное меню</a>
+                <a class="nav_link" href="/#events">Мероприятия</a>
+                <a class="nav_link" href="#">Контакты</a>
+
+            </nav>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="intro">
+        <div class="container">
+            <div class="intro_inner">
+              <h1 class="intro_title">Gusto</h1>
+            </div>
+
+        </div>
+    </div>
+    <section>
+        <div class="container">
+            <div class="row">
+                {% for item in banners %}
+                    <div class="col-xs-12">
+                        <h2 align="center">{{ item.title }}</h2>
+                        <div><img src="{{ item.photo.url }}"></div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </section>
+    <section id="special_menu">
+        <div class="container">
+            <h1 align="center">Меню від шефа</h1>
+            <div class="row">
+                {% for item in special_categories %}
+                    <div class="col-xs-12">
+                        <h2 align="center">{{ item.title }}</h2>
+                        {% for dish in item.dishes %}
+                            <div>
+                                <div><h3 align="center">{{ dish.title }}</h3></div>
+                                <div><p align="center">{{ dish.description }}</p></div>
+                                <div><p align="center">{{ dish.price }} &#8372; </p></div>
+                                <div><img src="{{ dish.photo.url }}" height="400" width="600" hspace="300"></div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </section>
+    <section id ="menu">
+        <div class="container">
+        <h1 align="center">Меню</h1>
+            <div class="row">
+                {% for item in categories %}
+                    <div class="col-xs-12">
+                        <h2 align="center">{{ item.title }}</h2>
+                        {% for dish in item.dishes %}
+                            <div>
+                                <div><h3 align="center"><a href="/menu/{{ dish.pk }}">{{ dish.title }}</a></h3></div>
+                                <div><p align="center">{{ dish.description }}</p></div>
+                                <div><p align="center">{{ dish.price }} &#8372; </p></div>
+                                <div><img src="{{ dish.photo.url }}" height="400" width="600" hspace="300"></div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </section>
+    <section id ="events">
+        <div class="container">
+        <h1 align="center">Мероприятия</h1>
+            <div class="row">
+                {% for item in events %}
+                    <div class="col-xs-12">
+                        <h2 align="center"><a href="/events/{{ item.pk }}">{{ item.title }}</a></h2>
+                        <div><h3 align="center">{{ item.description }}</h3></div>
+                        <div><p align="center">{{ item.event_date }}</p></div>
+                        <div><p align="center">{{ item.event_time }}</p></div>
+                        <div><p align="center">{{ item.price }} &#8372; </p></div>
+                        <div><img src="{{ item.photo.url }}" height="400" width="600" hspace="300"></div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </section>
+    <section id="reservation">
+        <div class="container">
+            <div class="col-md-8 col-md-offset-2">
+                <form name="sendMessage" id="contactForm" novalidate action="" method="post">
+                    {% csrf_token %}
+                    <div class="row">
+                        <div class="col-md-6">
+                            {{ form.user_name }}
+                        </div>
+                        <div class="col-md-6">
+                            {{ form.user_email }}
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            {{ form.message }}
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-custom btn-lg">Відправити повідомлення</button>
+                </form>
+            </div>
+        </div>
+    </section>
+<script>
+window.onscroll = function() {myFunction()};
+
+var navbar = document.getElementsByClassName("nav");
+var sticky = navbar.offsetTop;
+
+function myFunction() {
+  if (window.pageYOffset >= sticky) {
+    navbar.classList.add("sticky")
+  } else {
+    navbar.classList.remove("sticky");
+  }
+}
+</script>
+{% endblock %}
